@@ -25,12 +25,32 @@ public_html/fitfam/          → Your application root
 └── package.json
 ```
 
+## ⚠️ Prerequisites
+
+Before deployment, ensure:
+
+1. ✅ **Valid `.cpanel.yml` file** exists in the repository root
+2. ✅ **Update USERNAME** in `.cpanel.yml` to your actual cPanel username
+3. ✅ **Clean working tree** (no uncommitted changes)
+4. ✅ **All changes committed** to your branch
+
+### Updating .cpanel.yml
+
+Before first deployment, edit `.cpanel.yml`:
+
+```yaml
+# Line 5: Replace USERNAME with your actual cPanel username
+- export DEPLOYPATH=/home/YOUR_CPANEL_USERNAME/public_html/fitfam
+```
+
 ## 🚀 Deployment Steps
 
-### 1. **Push Code to Git Repository**
+### 1. **Prepare and Push Code**
 
 ```bash
 # From your local machine
+# 1. Update .cpanel.yml with your cPanel username
+# 2. Ensure all changes are committed
 git add .
 git commit -m "Ready for production deployment"
 git push origin main
@@ -38,15 +58,23 @@ git push origin main
 
 ### 2. **Clone Repository in cPanel**
 
-**Option A: Using cPanel Git Version Control**
-- Log into cPanel
-- Go to **Git™ Version Control**
-- Click **Create**
-- Enter your repository URL
-- Set repository path to: `public_html/fitfam`
-- Click **Create**
+**Using cPanel Git™ Version Control (Recommended)**
 
-**Option B: Using SSH**
+1. Log into cPanel
+2. Go to **Git™ Version Control**
+3. Click **Create**
+4. Fill in:
+   - **Clone URL**: Your repository URL (GitHub/GitLab/etc.)
+   - **Repository Path**: `public_html/fitfam`
+   - **Repository Name**: `fitfam` (optional)
+5. Click **Create**
+
+The system will:
+- Clone your repository
+- Automatically run `.cpanel.yml` deployment tasks
+- Install dependencies and build your application
+
+**Alternative: Using SSH**
 ```bash
 # SSH into your cPanel server
 ssh username@yourserver.com
@@ -59,26 +87,7 @@ git clone <your-repo-url> fitfam
 cd fitfam
 ```
 
-### 3. **Install Dependencies**
-
-```bash
-# SSH into your server
-cd public_html/fitfam
-
-# Install root dependencies
-npm install
-
-# Install backend dependencies
-cd backend && npm install && cd ..
-
-# Install frontend dependencies
-cd frontend && npm install && cd ..
-
-# Install shared dependencies (if needed)
-cd shared && npm install && cd ..
-```
-
-### 4. **Configure Environment Variables**
+### 3. **Configure Environment Variables (IMPORTANT)**
 
 Create `.env` file in the root directory:
 
@@ -107,20 +116,7 @@ DB_PASSWORD=your_database_password
 FRONTEND_URL=https://yourdomain.com
 ```
 
-### 5. **Build the Application**
-
-```bash
-cd public_html/fitfam
-
-# Build everything (frontend + backend)
-npm run build
-```
-
-This will:
-1. Build the React frontend → `frontend/dist/`
-2. Compile TypeScript backend → `backend/dist/`
-
-### 6. **Set Up Node.js App in cPanel**
+### 4. **Set Up Node.js App in cPanel**
 
 1. **Log into cPanel**
 2. Go to **Setup Node.js App**
@@ -135,42 +131,45 @@ This will:
 
 5. Click **Create**
 
-### 7. **Configure Environment Variables in cPanel**
+### 5. **Deploy Updates (Automatic or Manual)**
 
-In the Node.js App settings, add these environment variables:
-- `NODE_ENV=production`
-- `PORT=3000` (or the port cPanel assigns)
-- `COOKIE_SECRET=your-secret`
-- Add all other variables from your `.env` file
+#### **Automatic Deployment (Push Method)**
 
-### 8. **Start the Application**
-
-In cPanel Node.js App interface:
-- Click **Start Application** or **Restart Application**
-
-Your app should now be running!
-
-## 🔄 Updating the Application
-
-When you make changes:
+When you push changes to your repository, cPanel automatically deploys them:
 
 ```bash
 # On your local machine
 git add .
-git commit -m "Your update message"
+git commit -m "Update message"
 git push origin main
-
-# SSH into cPanel server
-cd public_html/fitfam
-git pull origin main
-
-# Rebuild
-npm run build
-
-# Restart Node.js app in cPanel
-# (or via SSH)
-npm start
 ```
+
+The `.cpanel.yml` post-receive hook automatically:
+1. Copies files to deployment directory
+2. Installs dependencies
+3. Builds the application
+
+Then restart your Node.js app in cPanel.
+
+#### **Manual Deployment (Pull Method)**
+
+1. Push changes to your remote repository (GitHub, etc.)
+2. In cPanel Git™ Version Control:
+   - Click **Manage** on your repository
+   - Click **Pull or Deploy** tab
+   - Click **Update from Remote** (pulls changes)
+   - Click **Deploy HEAD Commit** (runs `.cpanel.yml` tasks)
+3. Restart Node.js app in cPanel
+
+### 6. **Start/Restart the Application**
+
+After deployment or updates:
+
+1. Go to **Setup Node.js App** in cPanel
+2. Find your application
+3. Click **Restart** or **Start Application**
+
+Your app should now be running!
 
 ## 🌐 How It Works
 

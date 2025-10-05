@@ -1,9 +1,25 @@
 ---
 deployment:
   tasks:
-    # Install dependencies
-    - export DEPLOYPATH=/home/USERNAME/public_html/fitfam
-    - /bin/cp -R * $DEPLOYPATH
+    # IMPORTANT: Replace USERNAME with your actual cPanel username
+    - export DEPLOYPATH=/home/fitfamsp/public_html/fitfam
+
+    # Copy application files (excluding .git directory)
+    - /bin/cp -R backend $DEPLOYPATH
+    - /bin/cp -R frontend $DEPLOYPATH
+    - /bin/cp -R shared $DEPLOYPATH
+    - /bin/cp package.json $DEPLOYPATH
+    - /bin/cp package-lock.json $DEPLOYPATH
+    - /bin/cp .env.production.example $DEPLOYPATH
+
+    # Navigate to deployment directory
     - cd $DEPLOYPATH
-    - npm run install:all
+
+    # Install dependencies and build
+    - npm install
+    - cd backend && npm install && cd ..
+    - cd frontend && npm install && cd ..
+    - cd shared && npm install && cd ..
+
+    # Build the application
     - npm run build
