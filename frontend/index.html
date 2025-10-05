@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- Mobile-first viewport settings -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
+    <!-- iOS specific meta tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="FitFam" />
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#0ea5e9" />
+
+    <!-- PWA manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <meta name="description" content="FitFam - Track your fitness journey with friends" />
+    <title>FitFam - Fitness Tracking</title>
+
+    <!-- Prevent text size adjustment on mobile -->
+    <style>
+      html {
+        -webkit-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

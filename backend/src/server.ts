@@ -1,0 +1,48 @@
+import express, { Application } from 'express';
+import cors from 'cors';
+import cookieSession from 'cookie-session';
+import dotenv from 'dotenv';
+import authRoutes from './routes/auth';
+import workoutRoutes from './routes/workouts';
+import profileRoutes from './routes/profile';
+import famCenterRoutes from './routes/fam-center';
+
+dotenv.config();
+
+const app: Application = express();
+const PORT = process.env.PORT || 5000;
+
+// Middleware
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true
+}));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieSession({
+  name: 'session',
+  keys: [process.env.COOKIE_SECRET || 'dev-secret-key'],
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}));
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/workouts', workoutRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/fam-center', famCenterRoutes);
+
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+
+app.listen(PORT, () => {
+  console.log(`✅ Server running on http://localhost:${PORT}`);
+});

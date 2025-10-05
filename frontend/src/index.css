@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    /* Prevent font scaling on mobile */
+    -webkit-text-size-adjust: 100%;
+    /* Enable smooth scrolling */
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+    /* Optimize font rendering for mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent overscroll on iOS */
+    overscroll-behavior: none;
+  }
+
+  /* Better touch targets for mobile */
+  button, a, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent iOS zoom on input focus */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+@layer components {
+  /* Mobile-optimized button styles */
+  .btn-primary {
+    @apply bg-primary-600 text-white px-6 py-4 rounded-2xl font-semibold text-base shadow-lg active:scale-95 transition-transform;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-gray-900 px-6 py-4 rounded-2xl font-medium text-base shadow-sm active:scale-95 transition-transform border-2 border-gray-200;
+  }
+
+  /* Mobile-optimized input fields */
+  .input-field {
+    @apply w-full px-4 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-base;
+  }
+
+  /* Mobile-optimized cards */
+  .card {
+    @apply bg-white rounded-2xl shadow-sm p-5;
+  }
+}
+
+@layer utilities {
+  /* Safe area utilities for iOS notch/home indicator */
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .pl-safe {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .pr-safe {
+    padding-right: env(safe-area-inset-right);
+  }
+}
