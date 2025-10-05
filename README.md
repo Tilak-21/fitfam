@@ -79,27 +79,22 @@ npm run build
 npm start
 ```
 
-## Deployment to cPanel
+## 🚀 Deployment to cPanel
 
-1. **Push to Git repository**
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push origin main
-   ```
+**See [DEPLOYMENT.md](DEPLOYMENT.md) for complete step-by-step deployment instructions.**
 
-2. **On cPanel:**
-   - Use Git Version Control to clone repository
-   - SSH into server and run:
-     ```bash
-     cd fitfam
-     cp .env.example .env
-     # Edit .env with production values
-     cd backend && npm install && npm run build
-     cd ../frontend && npm install && npm run build
-     ```
-   - Set up Node.js app in cPanel pointing to `backend/dist/server.js`
-   - Configure environment variables in cPanel Node.js settings
+### Quick Deployment Summary
+
+1. **Clone repository** to `public_html/fitfam/`
+2. **Install dependencies**: `npm run install:all`
+3. **Configure .env** with production settings
+4. **Build**: `npm run build`
+5. **Setup Node.js App** in cPanel:
+   - Startup file: `backend/dist/server.js`
+   - Set `NODE_ENV=production`
+6. **Start application**
+
+The backend serves both API routes (`/api/*`) and the built React frontend.
 
 ## Features (Planned)
 

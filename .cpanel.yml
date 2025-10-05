@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    # Install dependencies
+    - export DEPLOYPATH=/home/USERNAME/public_html/fitfam
+    - /bin/cp -R * $DEPLOYPATH
+    - cd $DEPLOYPATH
+    - npm run install:all
+    - npm run build
